@@ -1,5 +1,7 @@
 target/
 data/
+bin/
 .idea/
+.settings/
 .project
 .classpath
