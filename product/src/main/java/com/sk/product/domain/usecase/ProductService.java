@@ -1,5 +1,6 @@
 package com.sk.product.domain.usecase;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import com.sk.product.domain.entity.Product;
@@ -17,7 +18,7 @@ public class ProductService implements ProductUsecase {
 	}
 
 	@Override
-	public Product findBy(UUID id) {
+	public Optional<Product> findBy(UUID id) {
 		return productPersistencePort.findBy(id);
 	}
 

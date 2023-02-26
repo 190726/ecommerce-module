@@ -2,12 +2,13 @@ package com.sk.product.adapter.persistence;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.sk.product.domain.entity.Product;
 import com.sk.product.domain.usecase.ProductPersistencePort;
 
-public class ProductPersistenceAdapter implements ProductPersistencePort {
+public class ProductInMemoryAdapter implements ProductPersistencePort {
 	
 	Map<String, Product> persistenceMap = new HashMap<>();
 
@@ -17,7 +18,7 @@ public class ProductPersistenceAdapter implements ProductPersistencePort {
 	}
 
 	@Override
-	public Product findBy(UUID id) {
-		return persistenceMap.get(id.toString());
+	public Optional<Product> findBy(UUID id) {
+		return Optional.ofNullable(persistenceMap.get(id.toString()));
 	}
 }

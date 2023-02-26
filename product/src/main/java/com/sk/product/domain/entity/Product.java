@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.springframework.util.Assert;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
@@ -15,19 +14,24 @@ import lombok.Setter;
 @Data
 @Setter(value = AccessLevel.PRIVATE)
 public class Product {
+	
+	public enum Category{
+		ELECTRIC, FOOD, ETC;
+	}
 
 	private UUID id;
 	private String name;
 	private BigDecimal price;
 	private Long stockAmount;
+	private Category category;
 
 	@Builder
-	public Product(String name, BigDecimal price, Long stockAmount) {
-		this(UUID.randomUUID(), name, price, stockAmount);
+	public Product(String name, BigDecimal price, Long stockAmount, Category category) {
+		this(UUID.randomUUID(), name, price, stockAmount, category);
 	}
 	
 	@Builder
-	public Product(UUID id, String name, BigDecimal price, Long stockAmount) {
+	public Product(UUID id, String name, BigDecimal price, Long stockAmount, Category category) {
 		Assert.hasText(name, "상품명은 필수 입니다.");
 		Assert.isTrue(Objects.requireNonNull(price)
 				.compareTo(BigDecimal.ZERO) > 0, "가격은 0보다 커야 합니다.");
@@ -36,6 +40,7 @@ public class Product {
 		this.name = name;
 		this.price = price;
 		this.stockAmount = stockAmount;
+		this.category = category;
 	}
 
 }
