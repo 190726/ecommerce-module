@@ -1,12 +1,12 @@
 package com.sk.order.usecase;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +23,16 @@ public class OrderServiceTest {
 		orderService = new OrderService(orderPersistencePort);
 	}
 	
+	Order orderStub() {
+		UUID productId = UUID.randomUUID();
+		String name = "상품명";
+		long amount = 10L;
+		BigDecimal price = BigDecimal.TEN;
+		OrderItem orderItem = new OrderItem(productId, name, amount, price);
+		Order order = orderService.placeOrder(List.of(orderItem));
+		return order;
+	}
+	
 	@Test
 	void placeOneItemOrderTest() throws Exception {
 		
@@ -32,11 +42,13 @@ public class OrderServiceTest {
 		BigDecimal price = BigDecimal.TEN;
 		OrderItem orderItem = new OrderItem(productId, name, amount, price);
 		Order order = orderService.placeOrder(List.of(orderItem));
-		Assertions.assertThat(order.getOrderItems()).hasSizeGreaterThan(0);
+		assertThat(order.getOrderItems()).hasSizeGreaterThan(0);
 	}
 	
 	@Test
 	void getOrderTest() throws Exception {
-		
+		Order orderStub = orderStub();
+		Order findOrder = orderService.getOrder(orderStub.getId());
+		assertThat(findOrder.getId()).isEqualTo(orderStub.getId());
 	}
 }

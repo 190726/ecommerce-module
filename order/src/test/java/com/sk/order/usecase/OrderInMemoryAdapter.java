@@ -2,6 +2,7 @@ package com.sk.order.usecase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class OrderInMemoryAdapter implements OrderPersistencePort {
 	
@@ -11,5 +12,10 @@ public class OrderInMemoryAdapter implements OrderPersistencePort {
 	public Order place(Order order) {
 		persistenceMap.putIfAbsent(order.getId().toString(), order);
 		return order;
+	}
+
+	@Override
+	public Order findBy(UUID id) {
+		return persistenceMap.get(id.toString());
 	}
 }
