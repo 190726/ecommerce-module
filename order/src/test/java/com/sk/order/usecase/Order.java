@@ -25,8 +25,10 @@ public class Order {
 	private LocalDateTime lastModified;
 	
 	public Order() {
+		this.id = UUID.randomUUID();
 		this.totalPrice = BigDecimal.ZERO;
 		this.orderStatus = OrderStatus.ORDERED;
+		this.lastModified = LocalDateTime.now();
 	}
 
 	public void items(List<OrderItem> list) {

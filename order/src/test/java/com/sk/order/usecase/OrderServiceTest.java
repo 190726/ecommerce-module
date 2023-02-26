@@ -1,5 +1,7 @@
 package com.sk.order.usecase;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -17,18 +19,12 @@ public class OrderServiceTest {
 
 	@BeforeEach
 	void setUp() {
-		orderPersistencePort = new OrderPersistencePort() {
-
-			@Override
-			public Order place(Order order) {
-				return order;
-			}
-		};
+		orderPersistencePort = new OrderInMemoryAdapter();
 		orderService = new OrderService(orderPersistencePort);
 	}
 	
 	@Test
-	void placeOrderTest() throws Exception {
+	void placeOneItemOrderTest() throws Exception {
 		
 		UUID productId = UUID.randomUUID();
 		String name = "상품명";
@@ -37,5 +33,10 @@ public class OrderServiceTest {
 		OrderItem orderItem = new OrderItem(productId, name, amount, price);
 		Order order = orderService.placeOrder(List.of(orderItem));
 		Assertions.assertThat(order.getOrderItems()).hasSizeGreaterThan(0);
+	}
+	
+	@Test
+	void getOrderTest() throws Exception {
+		
 	}
 }
