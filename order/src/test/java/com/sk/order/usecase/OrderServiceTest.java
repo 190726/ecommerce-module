@@ -57,4 +57,9 @@ public class OrderServiceTest {
 		Order findOrder = orderService.getOrder(orderStub.getId());
 		assertThat(findOrder.getId()).isEqualTo(orderStub.getId());
 	}
+	
+	@Test
+	void payedOrderTest() throws Exception {
+		
+	}
 }

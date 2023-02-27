@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 import com.sk.order.domain.entity.Order;
 import com.sk.order.domain.entity.OrderItem;
 
-public class OrderService {
+public class OrderService implements OrderGetUsecase, OrderPlaceUsecase, OrderPayUsecase{
 
 	private OrderPersistencePort orderPersistencePort;
 
@@ -16,6 +16,7 @@ public class OrderService {
 		this.orderPersistencePort = orderPersistencePort;
 	}
 
+	@Override
 	public Order placeOrder(List<OrderItem> list) {
 		Assert.notEmpty(list, "1개 이상의 아이템이 있어야 합니다.");
 		Order order = new Order();
@@ -23,7 +24,13 @@ public class OrderService {
 		return orderPersistencePort.place(order);
 	}
 
+	@Override
 	public Order getOrder(UUID id) {
 		return orderPersistencePort.findBy(id);
+	}
+
+	@Override
+	public void payOrder(UUID orderId) {
+		throw new UnsupportedOperationException();
 	}
 }
