@@ -1,4 +1,4 @@
-package com.sk.order.usecase;
+package com.sk.order.domain.entity;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -21,12 +21,18 @@ public class OrderItem {
 
 	@Builder
 	public OrderItem(UUID productId, String name, long amount, BigDecimal price) {
-		Assert.hasText(name, "상품명은 필수입니다");
-		Assert.isTrue(amount > 0, "수량은 0개 이상이어야 합니다");
-		Assert.isTrue(price != null, "가격은 필수입니다.");
+		
+		validated(name, amount, price);
+		
 		this.productId = productId;
 		this.name = name;
 		this.amount = amount;
 		this.price = price;
+	}
+
+	private void validated(String name, long amount, BigDecimal price) {
+		Assert.hasText(name, "상품명은 필수입니다");
+		Assert.isTrue(amount > 0, "수량은 0개 이상이어야 합니다");
+		Assert.isTrue(price != null, "가격은 필수입니다.");
 	}
 }

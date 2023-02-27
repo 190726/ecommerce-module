@@ -1,8 +1,11 @@
-package com.sk.order.usecase;
+package com.sk.order.adapter.persistence;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import com.sk.order.domain.entity.Order;
+import com.sk.order.domain.usecase.OrderPersistencePort;
 
 public class OrderInMemoryAdapter implements OrderPersistencePort {
 	

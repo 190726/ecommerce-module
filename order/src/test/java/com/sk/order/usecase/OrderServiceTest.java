@@ -10,6 +10,12 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.sk.order.adapter.persistence.OrderInMemoryAdapter;
+import com.sk.order.domain.entity.Order;
+import com.sk.order.domain.entity.OrderItem;
+import com.sk.order.domain.usecase.OrderPersistencePort;
+import com.sk.order.domain.usecase.OrderService;
+
 //1.주문할 상품과 수량값으로 주문아이템을 생성하여 주문에 담고 저장한다.
 //2.결재를 진행후 완료되면 배송을 시작한다.
 public class OrderServiceTest {

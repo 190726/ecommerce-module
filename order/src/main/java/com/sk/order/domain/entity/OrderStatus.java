@@ -1,4 +1,4 @@
-package com.sk.order.usecase;
+package com.sk.order.domain.entity;
 
 import lombok.Getter;
 

@@ -1,9 +1,12 @@
-package com.sk.order.usecase;
+package com.sk.order.domain.usecase;
 
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.util.Assert;
+
+import com.sk.order.domain.entity.Order;
+import com.sk.order.domain.entity.OrderItem;
 
 public class OrderService {
 
