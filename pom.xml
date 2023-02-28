@@ -11,6 +11,7 @@
         <module>product</module>
         <module>application</module>
         <module>order</module>
+        <module>delivery</module>
     </modules>
     <packaging>pom</packaging>
 
