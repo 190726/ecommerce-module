@@ -1,10 +1,14 @@
 package com.sk.order.domain.entity;
 
+import static java.time.LocalDateTime.now;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.sk.order.domain.usecase.DeliveryDesk;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -24,14 +28,27 @@ public class Order {
 	
 	private LocalDateTime lastModified;
 	
-	public Order() {
-		this.id = UUID.randomUUID();
-		this.totalPrice = BigDecimal.ZERO;
-		this.orderStatus = OrderStatus.ORDERED;
-		this.lastModified = LocalDateTime.now();
+	private Order() {
+	}
+	
+	public static Order createEmptyOrder() {
+		Order order = new Order();
+		order.setId(UUID.randomUUID());
+		order.setTotalPrice(BigDecimal.ZERO);
+		order.setOrderStatus(OrderStatus.ORDERED);
+		order.setLastModified(now());
+		return order;
 	}
 
-	public void items(List<OrderItem> list) {
+	public Order placed(List<OrderItem> list) {
 		orderItems.addAll(list);
+		return this;
+	}
+
+	public Order payed(DeliveryDesk deliveryDesk) {
+		deliveryDesk.dispatch(this);
+		orderStatus = OrderStatus.PAYED;
+		lastModified = now();
+		return this;
 	}
 }

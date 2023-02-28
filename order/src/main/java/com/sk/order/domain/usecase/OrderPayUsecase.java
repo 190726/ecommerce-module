@@ -2,8 +2,10 @@ package com.sk.order.domain.usecase;
 
 import java.util.UUID;
 
+import com.sk.order.domain.entity.Order;
+
 public interface OrderPayUsecase {
 	
-	void payOrder(UUID orderId);
+	Order payOrder(UUID orderId);
 
 }

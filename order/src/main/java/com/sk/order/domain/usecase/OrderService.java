@@ -10,18 +10,20 @@ import com.sk.order.domain.entity.OrderItem;
 
 public class OrderService implements OrderGetUsecase, OrderPlaceUsecase, OrderPayUsecase{
 
-	private OrderPersistencePort orderPersistencePort;
+	private final OrderPersistencePort orderPersistencePort;
+	private final DeliveryDesk deliveryDesk;
 
-	public OrderService(OrderPersistencePort orderPersistencePort) {
+	public OrderService(OrderPersistencePort orderPersistencePort, DeliveryDesk deliveryDesk) {
 		this.orderPersistencePort = orderPersistencePort;
+		this.deliveryDesk = deliveryDesk;
 	}
 
 	@Override
 	public Order placeOrder(List<OrderItem> list) {
 		Assert.notEmpty(list, "1개 이상의 아이템이 있어야 합니다.");
-		Order order = new Order();
-		order.items(list);
-		return orderPersistencePort.place(order);
+		return orderPersistencePort.place(
+					Order.createEmptyOrder().placed(list)
+				);
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class OrderService implements OrderGetUsecase, OrderPlaceUsecase, OrderPa
 	}
 
 	@Override
-	public void payOrder(UUID orderId) {
-		throw new UnsupportedOperationException();
+	public Order payOrder(UUID orderId) {
+		return getOrder(orderId).payed(deliveryDesk);
 	}
 }
