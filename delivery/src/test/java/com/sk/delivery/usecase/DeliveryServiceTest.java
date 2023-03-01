@@ -8,14 +8,18 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.sk.delivery.domain.entity.OrderItemSheet;
+import com.sk.delivery.domain.entity.OrderSheet;
+import com.sk.delivery.domain.usecase.DeliveryDispachUsecase;
+import com.sk.delivery.domain.usecase.DeliveryService;
+
 public class DeliveryServiceTest {
 	
-
-	private DeliveryService deliveryService;
+	private DeliveryDispachUsecase deliveryUsecase;
 	
 	@BeforeEach
 	void init() {
-		deliveryService = new DeliveryService();
+		deliveryUsecase = new DeliveryService();
 	}
 
 	@Test
@@ -30,7 +34,7 @@ public class DeliveryServiceTest {
 				.orderItemSheets(itemSheets)
 				.totalPrice(BigDecimal.TEN)
 				.build();
-		OrderSheet dispatchDelivery = deliveryService.dispatchDelivery(orderSheet);
+		OrderSheet dispatchDelivery = deliveryUsecase.dispatchDelivery(orderSheet);
 		Assertions.assertThat(dispatchDelivery.getOrderId()).isEqualTo(orderSheet.getOrderId());
 	}
 }

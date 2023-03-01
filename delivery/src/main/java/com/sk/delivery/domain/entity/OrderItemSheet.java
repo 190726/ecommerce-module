@@ -1,4 +1,4 @@
-package com.sk.delivery.usecase;
+package com.sk.delivery.domain.entity;
 
 import java.math.BigDecimal;
 

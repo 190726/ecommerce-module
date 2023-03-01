@@ -1,9 +1,7 @@
-package com.sk.delivery.usecase;
+package com.sk.delivery.domain.entity;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.Assert.hasText;
 import static org.springframework.util.Assert.isTrue;
-import static org.springframework.util.Assert.noNullElements;
 import static org.springframework.util.Assert.notEmpty;
 
 import java.math.BigDecimal;
@@ -48,5 +46,9 @@ public class OrderSheet {
 		//noNullElements(orderItemSheets, "주문아이템이 null이면 안됩니다.");
 		notEmpty(orderItemSheets, "주문아이템이 null이면 안됩니다.");
 		isTrue(totalPrice.compareTo(BigDecimal.ZERO) > 0, "주문금액은 0원이상이어야 합니다.");
+	}
+
+	public void completeDelivary() {
+		deliveryStatus = DeliveryStatus.COMPLETED;
 	}
 }
