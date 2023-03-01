@@ -1,5 +1,8 @@
 package com.sk.product.adapter.persistence;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,5 +34,17 @@ public class ProductJpaAdapter implements ProductPersistencePort{
 				.stockAmount(p.getStockAmount())
 				.category(p.getCategory()).build()
 				);
+	}
+
+	@Override
+	public List<Product> findAll() {
+		List<ProductEntity> entities = productRepository.findAll();
+		return entities.stream().map(p -> Product.builder()
+				.id(p.getId())
+				.name(p.getName())
+				.price(p.getPrice())
+				.stockAmount(p.getStockAmount())
+				.category(p.getCategory()).build()
+				).collect(toList());
 	}
 }

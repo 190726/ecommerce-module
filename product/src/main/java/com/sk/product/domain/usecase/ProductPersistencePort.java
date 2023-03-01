@@ -1,5 +1,6 @@
 package com.sk.product.domain.usecase;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,5 +11,7 @@ public interface ProductPersistencePort {
 	Product save(Product product);
 
 	Optional<Product> findBy(UUID id);
+
+	List<Product> findAll();
 
 }

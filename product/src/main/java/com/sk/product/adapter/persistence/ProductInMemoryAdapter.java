@@ -1,6 +1,7 @@
 package com.sk.product.adapter.persistence;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,5 +21,10 @@ public class ProductInMemoryAdapter implements ProductPersistencePort {
 	@Override
 	public Optional<Product> findBy(UUID id) {
 		return Optional.ofNullable(persistenceMap.get(id.toString()));
+	}
+
+	@Override
+	public List<Product> findAll() {
+		throw new UnsupportedOperationException();
 	}
 }
