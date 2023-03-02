@@ -1,10 +1,13 @@
 package com.sk.product.adapter.persistence;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.sk.product.domain.entity.Product;
 import com.sk.product.domain.usecase.ProductPersistencePort;
@@ -25,6 +28,6 @@ public class ProductInMemoryAdapter implements ProductPersistencePort {
 
 	@Override
 	public List<Product> findAll() {
-		throw new UnsupportedOperationException();
+		return new ArrayList<>(persistenceMap.values());
 	}
 }

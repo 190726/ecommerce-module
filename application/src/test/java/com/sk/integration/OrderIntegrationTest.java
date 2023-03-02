@@ -1,6 +1,10 @@
 package com.sk.integration;
 
+import static java.util.stream.Collectors.toList;
+
 import java.math.BigDecimal;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,6 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sk.order.adapter.persistence.OrderInMemoryAdapter;
+import com.sk.order.domain.entity.Order;
+import com.sk.order.domain.entity.OrderItem;
+import com.sk.order.domain.usecase.DeliveryDesk;
+import com.sk.order.domain.usecase.OrderPlaceUsecase;
+import com.sk.order.domain.usecase.OrderService;
 import com.sk.product.adapter.persistence.ProductInMemoryAdapter;
 import com.sk.product.domain.entity.Product;
 import com.sk.product.domain.entity.Product.Category;
@@ -19,11 +29,19 @@ import com.sk.product.domain.usecase.ProductUsecase;
 public class OrderIntegrationTest {
 	
 	private ProductUsecase productUsecase;
+	private OrderPlaceUsecase orderPlaceUsecase;
 
 	@BeforeEach
 	public void init() {
 
 		productUsecase = new ProductService(new ProductInMemoryAdapter());
+		orderPlaceUsecase = new OrderService(
+				new OrderInMemoryAdapter(), new DeliveryDesk() {
+					@Override
+					public void dispatch(Order order) {
+						throw new UnsupportedOperationException();
+					}
+				});
 		
 		Product product1 = Product.builder().name("상품1").price(BigDecimal.ONE).stockAmount(100L).category(Category.ELECTRIC).build();
 		Product product2 = Product.builder().name("상품2").price(BigDecimal.TEN).stockAmount(100L).category(Category.ELECTRIC).build();
@@ -49,9 +67,23 @@ public class OrderIntegrationTest {
 	@Test
 	void order() throws Exception {
 		//제품등록
-		productUsecase.findAll();
+		List<Product> findAll = productUsecase.findAll();
 		//제품조회
+		Product findFirst = findAll.stream()
+			.filter(p -> p.getCategory()==Category.FOOD)
+			.findFirst()
+			.orElseThrow();
+		System.out.println(String.format("product find : %s", findFirst));
+		//Product to OrderItem mapping
+		OrderItem orderItem = OrderItem.builder()
+			.productId(findFirst.getId())
+			.name(findFirst.getName())
+			.amount(5)
+			.price(findFirst.getPrice())
+			.build();
 		//주문생성
+		Order placeOrder = orderPlaceUsecase.placeOrder(List.of(orderItem));
+		System.out.println(String.format("order placed : %s", placeOrder));
 		//주문결제
 		//배달완료
 	}
