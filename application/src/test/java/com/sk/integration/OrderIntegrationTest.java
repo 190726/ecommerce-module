@@ -1,24 +1,17 @@
 package com.sk.integration;
 
-import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.sk.order.adapter.persistence.OrderInMemoryAdapter;
 import com.sk.order.domain.entity.Order;
 import com.sk.order.domain.entity.OrderItem;
 import com.sk.order.domain.usecase.DeliveryDesk;
-import com.sk.order.domain.usecase.OrderPlaceUsecase;
 import com.sk.order.domain.usecase.OrderService;
 import com.sk.product.adapter.persistence.ProductInMemoryAdapter;
 import com.sk.product.domain.entity.Product;
@@ -29,17 +22,17 @@ import com.sk.product.domain.usecase.ProductUsecase;
 public class OrderIntegrationTest {
 	
 	private ProductUsecase productUsecase;
-	private OrderPlaceUsecase orderPlaceUsecase;
+	private OrderService orderservice;
 
 	@BeforeEach
 	public void init() {
 
 		productUsecase = new ProductService(new ProductInMemoryAdapter());
-		orderPlaceUsecase = new OrderService(
+		orderservice = new OrderService(
 				new OrderInMemoryAdapter(), new DeliveryDesk() {
 					@Override
 					public void dispatch(Order order) {
-						throw new UnsupportedOperationException();
+						System.out.println(String.format("order completed %s", order.getTotalPrice().toPlainString()));
 					}
 				});
 		
@@ -82,10 +75,13 @@ public class OrderIntegrationTest {
 			.price(findFirst.getPrice())
 			.build();
 		//주문생성
-		Order placeOrder = orderPlaceUsecase.placeOrder(List.of(orderItem));
+		Order placeOrder = orderservice.placeOrder(List.of(orderItem));
 		System.out.println(String.format("order placed : %s", placeOrder));
 		//주문결제
+		Order payedOrder = orderservice.payOrder(placeOrder.getId());
 		//배달완료
+		assertThat(payedOrder.getOrderStatus().getCode())
+				.isEqualTo("payed");
 	}
 
 }
