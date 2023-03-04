@@ -32,7 +32,7 @@ public class OrderService implements OrderGetUsecase, OrderPlaceUsecase, OrderPa
 	public Order getOrder(UUID id) {
 		return orderPersistencePort.findBy(id);
 	}
-
+	
 	@Override
 	public Order payOrder(UUID orderId) {
 		return getOrder(orderId).payed(deliveryDesk);

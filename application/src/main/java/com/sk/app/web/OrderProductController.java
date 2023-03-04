@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sk.app.service.OrderProductService;
+import com.sk.delivery.domain.entity.OrderSheet;
 import com.sk.order.domain.entity.Order;
 import com.sk.order.domain.entity.OrderItem;
 import com.sk.order.domain.usecase.OrderPayUsecase;
@@ -18,30 +20,22 @@ import com.sk.product.domain.usecase.ProductUsecase;
 @RestController
 public class OrderProductController {
 	
-	@Autowired private ProductUsecase productUsecase;
-	@Autowired private OrderPlaceUsecase orderPlaceUsecase;
-	@Autowired private OrderPayUsecase orderPayUsecase;
+	@Autowired OrderProductService orderProductService;
+	
 	
 	@GetMapping("/products")
 	public List<Product> products(){
-		return productUsecase.findAll();
+		return orderProductService.allProducts();
 	}
 	
 	@GetMapping("/order")
 	public Order order(@RequestParam("id") String id, @RequestParam("amount") Long amount) {
-	
-		Product product = productUsecase.findBy(UUID.fromString(id))
-			.orElseThrow(() -> new IllegalStateException("해당 상품이 없습니다."));
-		//OrderItem 생성
-		OrderItem orderItem = OrderItem.builder()
-				.productId(product.getId().toString())
-				.name(product.getName())
-				.amount(amount)
-				.price(product.getPrice())
-				.build();
-		Order placeOrder = orderPlaceUsecase.placeOrder(List.of(orderItem));
-		Order payedOrder = orderPayUsecase.payOrder(placeOrder.getId());
+		Order payedOrder = orderProductService.orderPlaced(id, amount);
 		return payedOrder;
 	}
-
+	
+	@GetMapping("/pay")
+	public OrderSheet pay(@RequestParam("orderId") String orderId) {
+		return orderProductService.orderPayed(orderId);
+	}
 }
