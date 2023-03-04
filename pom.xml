@@ -9,9 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>product</module>
-        <module>application</module>
         <module>order</module>
-        <module>delivery</module>
     </modules>
     <packaging>pom</packaging>
 
