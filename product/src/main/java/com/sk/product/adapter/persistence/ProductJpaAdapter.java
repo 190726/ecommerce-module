@@ -29,10 +29,8 @@ public class ProductJpaAdapter implements ProductPersistencePort{
 	}
 
 	@Override
-	public Optional<Product> findBy(String id) {
-		Optional<ProductEntity> entity = productRepository.findById(id.toString());
-		System.out.println(entity.get());
-		System.out.println(id.toString());
+	public Optional<Product> findBy(UUID id) {
+		Optional<ProductEntity> entity = productRepository.findById(id);
 		return entity.map(p -> {return new Product(p.getId(), p.getName(), p.getPrice(), p.getStockAmount(), p.getCategory());}
 				);
 	}
@@ -40,15 +38,10 @@ public class ProductJpaAdapter implements ProductPersistencePort{
 	@Override
 	public List<Product> findAll() {
 		List<ProductEntity> entities = productRepository.findAll();
-		System.out.println("-----productEntity-----");
-		entities.forEach(System.out::println);
-		 List<Product> products = entities.stream().map(p -> {
+		 return entities.stream().map(p -> {
 			 					return new Product(p.getId(), p.getName(), p.getPrice(), p.getStockAmount(), p.getCategory());
 		 					}
 				).sorted(Comparator.comparing(Product::getName))
 				.collect(toList());
-		 System.out.println("----productMapped----");
-		 products.forEach(System.out::println);
-		return products;
 	}
 }

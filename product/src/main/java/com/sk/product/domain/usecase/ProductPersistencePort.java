@@ -10,7 +10,7 @@ public interface ProductPersistencePort {
 
 	Product save(Product product);
 
-	Optional<Product> findBy(String id);
+	Optional<Product> findBy(UUID id);
 
 	List<Product> findAll();
 

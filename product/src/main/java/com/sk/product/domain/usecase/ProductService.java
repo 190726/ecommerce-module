@@ -22,16 +22,13 @@ public class ProductService implements ProductUsecase {
 	}
 
 	@Override
-	public Optional<Product> findBy(String id) {
+	public Optional<Product> findBy(UUID id) {
 		return productPersistencePort.findBy(id);
 	}
 
 	@Override
 	public List<Product> findAll() {
-		List<Product> findAll = productPersistencePort.findAll();
-		System.out.println("-------productSErvie------");
-		findAll.forEach(System.out::println);
-		return findAll;
+		return productPersistencePort.findAll();
 	}
 
 }

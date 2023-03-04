@@ -19,7 +19,7 @@ public class Product {
 		ELECTRIC, FOOD, ETC;
 	}
 
-	private String id;
+	private UUID id;
 	private String name;
 	private BigDecimal price;
 	private Long stockAmount;
@@ -27,12 +27,10 @@ public class Product {
 
 	@Builder
 	public Product(String name, BigDecimal price, Long stockAmount, Category category) {
-		this(UUID.randomUUID().toString(), name, price, stockAmount, category);
+		this(UUID.randomUUID(), name, price, stockAmount, category);
 	}
 	
-	public Product(String id, String name, BigDecimal price, Long stockAmount, Category category) {
-		System.out.println("-----build----");
-		System.out.println(id.toString());
+	public Product(UUID id, String name, BigDecimal price, Long stockAmount, Category category) {
 		Assert.hasText(name, "상품명은 필수 입니다.");
 		Assert.isTrue(Objects.requireNonNull(price)
 				.compareTo(BigDecimal.ZERO) > 0, "가격은 0보다 커야 합니다.");

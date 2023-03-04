@@ -30,11 +30,11 @@ public class OrderProductController {
 	@GetMapping("/order")
 	public Order order(@RequestParam("id") String id, @RequestParam("amount") Long amount) {
 	
-		Product product = productUsecase.findBy(id)
+		Product product = productUsecase.findBy(UUID.fromString(id))
 			.orElseThrow(() -> new IllegalStateException("해당 상품이 없습니다."));
 		//OrderItem 생성
 		OrderItem orderItem = OrderItem.builder()
-				.productId(product.getId())
+				.productId(product.getId().toString())
 				.name(product.getName())
 				.amount(amount)
 				.price(product.getPrice())

@@ -26,7 +26,8 @@ import lombok.ToString;
 public class ProductEntity {
 	
 	@Id
-	private String id;
+	@Column(columnDefinition = "uuid")
+	private UUID id;
 	
 	private String name;
 	

@@ -22,7 +22,7 @@ public class ProductInMemoryAdapter implements ProductPersistencePort {
 	}
 
 	@Override
-	public Optional<Product> findBy(String id) {
+	public Optional<Product> findBy(UUID id) {
 		return Optional.ofNullable(persistenceMap.get(id.toString()));
 	}
 
