@@ -44,7 +44,7 @@ public class OrderServiceTest {
 		String name = "상품명";
 		long amount = 10L;
 		BigDecimal price = BigDecimal.TEN;
-		OrderItem orderItem = new OrderItem(productId, name, amount, price);
+		OrderItem orderItem = new OrderItem(productId.toString(), name, amount, price);
 		Order order = orderService.placeOrder(List.of(orderItem));
 		return order;
 	}
@@ -57,7 +57,7 @@ public class OrderServiceTest {
 		String name = "상품명";
 		long amount = 10L;
 		BigDecimal price = BigDecimal.TEN;
-		OrderItem orderItem = new OrderItem(productId, name, amount, price);
+		OrderItem orderItem = new OrderItem(productId.toString(), name, amount, price);
 		Order order = orderService.placeOrder(List.of(orderItem));
 		assertThat(order.getOrderItems()).hasSizeGreaterThan(0);
 	}

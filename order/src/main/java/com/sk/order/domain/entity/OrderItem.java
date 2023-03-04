@@ -14,13 +14,13 @@ import lombok.Setter;
 @Setter(value = AccessLevel.PRIVATE)
 public class OrderItem {
 
-	private UUID productId;
+	private String productId;
 	private String name;
 	private long amount;
 	private BigDecimal price;
 
 	@Builder
-	public OrderItem(UUID productId, String name, long amount, BigDecimal price) {
+	public OrderItem(String productId, String name, long amount, BigDecimal price) {
 		
 		validated(name, amount, price);
 		

@@ -69,7 +69,7 @@ public class OrderIntegrationTest {
 		System.out.println(String.format("product find : %s", findFirst));
 		//Product to OrderItem mapping
 		OrderItem orderItem = OrderItem.builder()
-			.productId(findFirst.getId())
+			.productId(findFirst.getId().toString())
 			.name(findFirst.getName())
 			.amount(5)
 			.price(findFirst.getPrice())

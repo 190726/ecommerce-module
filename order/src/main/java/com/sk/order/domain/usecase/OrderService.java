@@ -3,11 +3,13 @@ package com.sk.order.domain.usecase;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.sk.order.domain.entity.Order;
 import com.sk.order.domain.entity.OrderItem;
 
+@Service
 public class OrderService implements OrderGetUsecase, OrderPlaceUsecase, OrderPayUsecase{
 
 	private final OrderPersistencePort orderPersistencePort;

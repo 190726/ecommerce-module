@@ -27,7 +27,7 @@ public class ProductJpaTest {
 		Product product = Product.builder().name("test").price(BigDecimal.ONE).stockAmount(10L).build();
 		//when
 		productUsecase.register(product);
-		Optional<Product> findProduct = productUsecase.findBy(product.getId());
+		Optional<Product> findProduct = productUsecase.findBy(product.getId().toString());
 		//then
 		Assertions.assertThat(product.getName()).isEqualTo(findProduct.get().getName());
 	}

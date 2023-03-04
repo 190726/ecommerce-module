@@ -15,7 +15,9 @@ import com.sk.product.domain.entity.Product.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class ProductEntity {
 	
 	@Id
-	private UUID id;
+	private String id;
 	
 	private String name;
 	

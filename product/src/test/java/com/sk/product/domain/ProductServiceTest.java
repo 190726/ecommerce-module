@@ -40,7 +40,7 @@ public class ProductServiceTest {
 	@DisplayName("상품 생성시 가격 오류")
 	void makeProductErrorTest() throws Exception {
 		assertThrows(IllegalArgumentException.class, ()
-				-> new Product(UUID.randomUUID(), "상품", new BigDecimal(-10), 10L, Category.ETC));
+				-> new Product(UUID.randomUUID().toString(), "상품", new BigDecimal(-10), 10L, Category.ETC));
 	}
 	
     @Test
@@ -51,10 +51,10 @@ public class ProductServiceTest {
         String name = "실손보험";
 		BigDecimal price = BigDecimal.TEN;
 		
-		Product product = new Product(id, name, price, 10L, Category.ELECTRIC);
+		Product product = new Product(id.toString(), name, price, 10L, Category.ELECTRIC);
         //when
         productUsecase.register(product);
-        Product find = productUsecase.findBy(id)
+        Product find = productUsecase.findBy(id.toString())
         		.orElseThrow(()->new NotExistProductException(String.format("해당ID에 상품이 없습니다. ID: %s", id)));
         //then
         Assertions.assertThat(find.getId()).isEqualTo(id);
